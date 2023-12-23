@@ -11,7 +11,7 @@ jobs:
 
     steps:
     - name: Build Docker image
-      run: Make build
+      run: make build
 
   test:
     runs-on: ubuntu-latest
