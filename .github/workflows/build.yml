@@ -1,4 +1,4 @@
-name: Build
+name: CI/CD Pipeline
 
 on:
   push:
@@ -10,9 +10,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-
     - name: Build Docker image
-      run: make build
+      run: Make build
 
+  test:
+    runs-on: ubuntu-latest
+
+    needs: build
+
+    steps:
+    - name: Test with curl
+      run: make test
+      
+  release:
+    runs-on: ubuntu-latest
+
+    needs: test
+
+    steps:
+    - name: release
+      run: make release
