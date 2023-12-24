@@ -20,7 +20,7 @@ jobs:
 
     - name: set output
       id: check_scan
-      run: run: echo "scan_needed=1" >> $GITHUB_OUTPUT
+      run: echo "scan_needed=1" >> $GITHUB_OUTPUT
 
 
   test:
