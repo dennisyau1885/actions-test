@@ -1,0 +1,19 @@
+name: test hello
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+
+jobs:
+  test-hello:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: test hello foobar
+      uses: dennisyau1885/hello@v1
+      with:
+        person: foobar
