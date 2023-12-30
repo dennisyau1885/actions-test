@@ -7,11 +7,12 @@ build:
 test:
 	echo testing
 	rm test.txt.out || true
-	docker run -v ./:/app -it reverse test.txt
+	docker run -v ./:/app reverse test.txt
 	grep olleh test.txt.out
 
 scan:
 	echo scanning
+	docker images reverse
 
 release:
 	echo releasing
