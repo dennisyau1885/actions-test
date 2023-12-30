@@ -18,6 +18,16 @@ jobs:
     - name: Build Docker image
       run: make build
 
+    - name: push Docker image
+      env:
+        GITHUB_TOKEN: ${{ secrets.TOKEN_CLASSIC_REPO_WRITE_PACKAGES }}
+        IMAGE: 'reverse'
+      run: |
+        echo $GITHUB_TOKEN | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
+        GHCR_IMAGE=ghcr.io/${{ github.repository_owner }}/${{ github.repository_name }}${IMAGE}
+        docker tag ${IMAGE}:latest ${GHCR_IMAGE}:latest
+        docker push ${GHCR_IMAGE}:latest
+
   test:
     runs-on: ubuntu-latest
     needs: build
@@ -28,6 +38,16 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
+    - name: pull Docker image
+      env:
+        GITHUB_TOKEN: ${{ secrets.TOKEN_CLASSIC_REPO_READ_PACKAGES }}
+        IMAGE: 'reverse'
+      run: |
+        echo $GITHUB_TOKEN | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
+        GHCR_IMAGE=ghcr.io/${{ github.repository_owner }}/${{ github.repository_name }}${IMAGE}
+        docker pull ${GHCR_IMAGE}:latest
+        docker tag  ${GHCR_IMAGE}:latest ${IMAGE}:latest
+        
     - name: Test with curl
       run: make test
       
