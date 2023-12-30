@@ -6,7 +6,7 @@ build:
 
 test:
 	echo testing
-	rm test.txt.out || true
+	echo hello >test.txt
 	docker run -u $$(id -u):$$(id -g) -v ./:/app reverse test.txt
 	grep olleh test.txt.out
 
